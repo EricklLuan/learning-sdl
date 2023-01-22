@@ -4,14 +4,15 @@ project(learning_sdl VERSION 0.1.0)
 find_package(SDL2 CONFIG REQUIRED)
 find_package(SDL2_image CONFIG REQUIRED)
 
-include_directories("inclue")
+file(GLOB_RECURSE HEADERS "include/*.hpp")
+file(GLOB SOURCES "src/*.cpp")
 
-file(GLOB SOURCES "src/*.cpp" "include/*.hpp")
-add_executable(learning_sdl ${SOURCES})
+include_directories("include")
+add_executable(learning_sdl ${SOURCES} ${HEADERS})
 
 set(CPACK_PROJECT_NAME ${PROJECT_NAME})
 set(CPACK_PROJECT_VERSION ${PROJECT_VERSION})
 include(CPack)
 
-target_link_libraries(learning_sdl PRIVATE SDL2::SDL2)
-target_link_libraries(learning_sdl PRIVATE $<IF:$<TARGET_EXISTS:SDL2_image::SDL2_image>,SDL2_image::SDL2_image,SDL2_image::SDL2_image-static>)
+target_link_libraries(learning_sdl PRIVATE SDL2::SDL2 SDL2::SDL2main)
+target_link_libraries(learning_sdl PRIVATE SDL2_image::SDL2_image)
