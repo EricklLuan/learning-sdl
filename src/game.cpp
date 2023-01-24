@@ -17,7 +17,39 @@ void Game::run() {
 
     window.clear();
 
-    SDL_SetRenderDrawColor(window.getRenderer(), 200, 200, 200, 255);
+    SDL_Rect viewport = {
+      0, 0,
+      SCREEN_WIDTH / 2,
+      SCREEN_HEIGHT / 2,
+    };
+
+    SDL_RenderSetViewport(window.getRenderer(), &viewport);
+
+    SDL_RenderCopy(window.getRenderer(), window.loadTexture("assets/mario.png"), NULL, NULL);
+
+    SDL_Rect top_right_viewport = {
+      SCREEN_WIDTH / 2,
+      0,
+      SCREEN_WIDTH / 2,
+      SCREEN_HEIGHT / 2,
+    };
+
+    SDL_RenderSetViewport(window.getRenderer(), &top_right_viewport);
+
+    SDL_RenderCopy(window.getRenderer(), window.loadTexture("assets/mario.png"), NULL, NULL);
+
+    SDL_Rect bottom_viewport = {
+      0,
+      SCREEN_HEIGHT / 2,
+      SCREEN_WIDTH,
+      SCREEN_HEIGHT / 2,
+    };
+
+    SDL_RenderSetViewport(window.getRenderer(), &bottom_viewport);
+
+    SDL_RenderCopy(window.getRenderer(), window.loadTexture("assets/mario.png"), NULL, NULL);
+
+    SDL_SetRenderDrawColor(window.getRenderer(), 255, 255, 255, 255);
 
     window.flip();
   }
