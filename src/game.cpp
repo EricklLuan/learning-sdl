@@ -1,5 +1,5 @@
 #include "../include/game.hpp"
-
+#include "../include/sprite.hpp"
 #include <iostream>
 
 Game::Game() {
@@ -9,7 +9,7 @@ Game::Game() {
 Game::~Game() {
 
 }
-
+// create viewport class
 void Game::run() {
   while (events()) {
 
@@ -17,39 +17,12 @@ void Game::run() {
 
     window.clear();
 
-    SDL_Rect viewport = {
-      0, 0,
-      SCREEN_WIDTH / 2,
-      SCREEN_HEIGHT / 2,
-    };
+    Sprite sprite = Sprite(window.loadTexture("assets/sprites.png"), 100, 100);
 
-    SDL_RenderSetViewport(window.getRenderer(), &viewport);
-
-    SDL_RenderCopy(window.getRenderer(), window.loadTexture("assets/mario.png"), NULL, NULL);
-
-    SDL_Rect top_right_viewport = {
-      SCREEN_WIDTH / 2,
-      0,
-      SCREEN_WIDTH / 2,
-      SCREEN_HEIGHT / 2,
-    };
-
-    SDL_RenderSetViewport(window.getRenderer(), &top_right_viewport);
-
-    SDL_RenderCopy(window.getRenderer(), window.loadTexture("assets/mario.png"), NULL, NULL);
-
-    SDL_Rect bottom_viewport = {
-      0,
-      SCREEN_HEIGHT / 2,
-      SCREEN_WIDTH,
-      SCREEN_HEIGHT / 2,
-    };
-
-    SDL_RenderSetViewport(window.getRenderer(), &bottom_viewport);
-
-    SDL_RenderCopy(window.getRenderer(), window.loadTexture("assets/mario.png"), NULL, NULL);
-
-    SDL_SetRenderDrawColor(window.getRenderer(), 255, 255, 255, 255);
+    sprite.render(window.getRenderer(), 0, 0, 1, 1);
+    sprite.render(window.getRenderer(), SCREEN_WIDTH - 100, 0, 2, 1);
+    sprite.render(window.getRenderer(), 0, SCREEN_HEIGHT - 100, 1, 2);
+    sprite.render(window.getRenderer(), SCREEN_HEIGHT - 100, SCREEN_HEIGHT - 100, 2, 2);
 
     window.flip();
   }
