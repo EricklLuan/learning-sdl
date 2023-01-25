@@ -15,16 +15,11 @@ Game::~Game() {
 
 void Game::run() {
 
-  Vector4 tranparency = Vector4().black();
   AnimatedSprite animated_sprite = AnimatedSprite(window.loadTexture("assets/sprite_sheet.png"), Vector2(64, 205), 3);
 
   while (events()) {
 
     if (input.getKeyPressed(SDL_SCANCODE_ESCAPE) == true) return;
-
-    if (input.getKeyHeld(SDL_SCANCODE_UP)) tranparency.a += 1;
-    if (input.getKeyHeld(SDL_SCANCODE_DOWN)) tranparency.a -= 1;
-
 
     window.clear();
 
