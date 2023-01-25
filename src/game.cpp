@@ -1,5 +1,7 @@
 #include "../include/game.hpp"
 #include "../include/sprite.hpp"
+#include "../include/vector2.hpp"
+
 #include <iostream>
 
 Game::Game() {
@@ -9,7 +11,7 @@ Game::Game() {
 Game::~Game() {
 
 }
-// create viewport class
+
 void Game::run() {
   while (events()) {
 
@@ -17,13 +19,9 @@ void Game::run() {
 
     window.clear();
 
-    Sprite sprite = Sprite(window.loadTexture("assets/sprites.png"), 100, 100);
+    Sprite sprite = Sprite(window.loadTexture("assets/sprites.png"), Vector2(100, 100));
 
-    sprite.render(window.getRenderer(), 0, 0, 1, 1);
-    sprite.render(window.getRenderer(), SCREEN_WIDTH - 100, 0, 2, 1);
-    sprite.render(window.getRenderer(), 0, SCREEN_HEIGHT - 100, 1, 2);
-    sprite.render(window.getRenderer(), SCREEN_HEIGHT - 100, SCREEN_HEIGHT - 100, 2, 2);
-
+    sprite.render(window.getRenderer(), Vector2(), Vector2(1, 0));
     window.flip();
   }
 }

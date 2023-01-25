@@ -2,19 +2,19 @@
 
 #include <SDL2/SDL.h>
 
+#include "./vector2.hpp"
+
 class Sprite {
 private:
-  SDL_Texture* sprite;
-  int width;
-  int height;
+  SDL_Texture* sprite_texture;
+  Vector2 size;
 public:
-  Sprite(SDL_Texture* texture, int nWidth, int nHeight);
+  Sprite(SDL_Texture* texture, Vector2 nSize);
   ~Sprite();
 
   void free();
-  void render(SDL_Renderer* renderer, int x=0, int y=0, int line=0, int column=0);
+  void render(SDL_Renderer* renderer, Vector2 position, Vector2 sprite);
 
-  int getWidth();
-  int getHeight();
+  inline Vector2 getSize() { return size; }
 
 };

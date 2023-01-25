@@ -3,8 +3,8 @@
 #include <iostream>
 
 
-Sprite::Sprite(SDL_Texture* texture, int nWidth, int nHeight): 
-sprite(texture), width(nWidth), height(nHeight)  {
+Sprite::Sprite(SDL_Texture* texture, Vector2 nSize)
+: sprite_texture(texture), size(nSize) {
   
 }
 
@@ -12,35 +12,25 @@ Sprite::~Sprite() {
   
 }
 
-void Sprite::free()
-{
+void Sprite::free() {
   
 }
 
-void Sprite::render(SDL_Renderer* renderer, int x, int y, int line, int column) {
-  SDL_Rect dst = {
-    x, 
-    y, 
-    width, 
-    height
-  };
-
+void Sprite::render(SDL_Renderer* renderer, Vector2 position, Vector2 sprite) {
+  
   SDL_Rect src = {
-    width * line,
-    height * column,
-    width,
-    height
+    (int)size.x * (int)sprite.x,
+    (int)size.y * (int)sprite.y,
+    (int)size.x,
+    (int)size.y
   };
 
-  SDL_RenderCopy(renderer, sprite, &src, &dst);
-}
+  SDL_Rect dst = {
+    (int)position.x, 
+    (int)position.y, 
+    (int)size.x, 
+    (int)size.y
+  };
 
-int Sprite::getWidth()
-{
-  return width;
-}
-
-int Sprite::getHeight()
-{
-  return height;
+  SDL_RenderCopy(renderer, sprite_texture, &src, &dst);
 }
