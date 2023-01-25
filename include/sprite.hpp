@@ -6,7 +6,7 @@
 #include "./vector4.hpp"
 
 class Sprite {
-private:
+protected:
   SDL_Texture* sprite_texture;
   Vector2 size;
 public:
@@ -18,7 +18,7 @@ public:
   void modulate(Vector4 color);
   void tranparency(float level);
 
-  void render(SDL_Renderer* renderer, Vector2 position, Vector2 sprite);
+  virtual void render(SDL_Renderer* renderer, Vector2 position, Vector2 sprite);
 
   inline Vector2 getSize() { return size; }
 

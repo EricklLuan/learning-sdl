@@ -1,6 +1,7 @@
 #include "../include/game.hpp"
 #include "../include/sprite.hpp"
 #include "../include/vector2.hpp"
+#include "../include/animated_sprite.hpp"
 
 #include <iostream>
 
@@ -15,6 +16,7 @@ Game::~Game() {
 void Game::run() {
 
   Vector4 tranparency = Vector4().black();
+  AnimatedSprite animated_sprite = AnimatedSprite(window.loadTexture("assets/sprite_sheet.png"), Vector2(64, 205), 3);
 
   while (events()) {
 
@@ -26,11 +28,8 @@ void Game::run() {
 
     window.clear();
 
-    Sprite sprite = Sprite(window.loadTexture("assets/mario.png"), Vector2(91, 184));
+    animated_sprite.render(window.getRenderer(), Vector2(), 0, 6);
 
-    sprite.tranparency(tranparency.a);
-
-    sprite.render(window.getRenderer(), Vector2(), Vector2(0, 0));
     window.flip();
   }
 }
