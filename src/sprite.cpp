@@ -16,6 +16,10 @@ void Sprite::free() {
   
 }
 
+void Sprite::modulate(Vector4 color) {
+  SDL_SetTextureColorMod(sprite_texture, color.r, color.g, color.b);
+}
+
 void Sprite::render(SDL_Renderer* renderer, Vector2 position, Vector2 sprite) {
   
   SDL_Rect src = {
