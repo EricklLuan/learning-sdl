@@ -14,7 +14,10 @@ public:
   ~Sprite();
 
   void free();
+
   void modulate(Vector4 color);
+  void tranparency(float level);
+
   void render(SDL_Renderer* renderer, Vector2 position, Vector2 sprite);
 
   inline Vector2 getSize() { return size; }

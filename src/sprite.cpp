@@ -5,7 +5,7 @@
 
 Sprite::Sprite(SDL_Texture* texture, Vector2 nSize)
 : sprite_texture(texture), size(nSize) {
-  
+  SDL_SetTextureBlendMode(sprite_texture, SDL_BLENDMODE_BLEND);
 }
 
 Sprite::~Sprite() {
@@ -18,6 +18,12 @@ void Sprite::free() {
 
 void Sprite::modulate(Vector4 color) {
   SDL_SetTextureColorMod(sprite_texture, color.r, color.g, color.b);
+}
+
+void Sprite::tranparency(float level) {
+  if (level <= 255 && level >= 0) {
+    SDL_SetTextureAlphaMod(sprite_texture, level);
+  };
 }
 
 void Sprite::render(SDL_Renderer* renderer, Vector2 position, Vector2 sprite) {

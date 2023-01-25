@@ -14,25 +14,21 @@ Game::~Game() {
 
 void Game::run() {
 
-  Vector4 color = Vector4();
+  Vector4 tranparency = Vector4().black();
 
   while (events()) {
 
     if (input.getKeyPressed(SDL_SCANCODE_ESCAPE) == true) return;
 
-    if (input.getKeyHeld(SDL_SCANCODE_Q) == true) color.r += 1;
-    if (input.getKeyHeld(SDL_SCANCODE_W) == true) color.g += 1;
-    if (input.getKeyHeld(SDL_SCANCODE_E) == true) color.b += 1;
+    if (input.getKeyHeld(SDL_SCANCODE_UP)) tranparency.a += 1;
+    if (input.getKeyHeld(SDL_SCANCODE_DOWN)) tranparency.a -= 1;
 
-    if (input.getKeyHeld(SDL_SCANCODE_A) == true) color.r -= 1;
-    if (input.getKeyHeld(SDL_SCANCODE_S) == true) color.g -= 1;
-    if (input.getKeyHeld(SDL_SCANCODE_D) == true) color.b -= 1;
 
     window.clear();
 
     Sprite sprite = Sprite(window.loadTexture("assets/mario.png"), Vector2(91, 184));
 
-    sprite.modulate(color);
+    sprite.tranparency(tranparency.a);
 
     sprite.render(window.getRenderer(), Vector2(), Vector2(0, 0));
     window.flip();
