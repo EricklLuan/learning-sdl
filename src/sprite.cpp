@@ -6,8 +6,6 @@
 Sprite::Sprite(SDL_Texture* texture, Vector2 nSize)
 : sprite_texture(texture), size(nSize) {
   SDL_SetTextureBlendMode(sprite_texture, SDL_BLENDMODE_BLEND);
-  center->x = size.x / 2;
-  center->y = size.y / 2;
 }
 
 Sprite::~Sprite() {
@@ -49,4 +47,18 @@ void Sprite::render(SDL_Renderer* renderer, Vector2 position, Vector2 sprite) {
 
 void Sprite::setCenter(SDL_Point* nCenter) {
   center = nCenter;
+}
+
+// need to make flip both
+
+void Sprite::setFlipH(bool isFliped) {
+  flipH = isFliped;
+  if (flipH == true) flip = SDL_FLIP_HORIZONTAL;
+  else flip = SDL_FLIP_NONE;
+}
+
+void Sprite::setFlipV(bool isFliped) {
+  flipV = isFliped;
+  if (flipV == true) flip = SDL_FLIP_VERTICAL;
+  else flip = SDL_FLIP_NONE;
 }

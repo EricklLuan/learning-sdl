@@ -24,6 +24,8 @@ void Game::run() {
     if (input.getKeyHeld(SDL_SCANCODE_F)) {mario.angle += 0.5f;}
     if (input.getKeyHeld(SDL_SCANCODE_J)) {mario.angle -= 0.5f;}
 
+    if (input.getKeyPressed(SDL_SCANCODE_H)) { mario.setFlipH(!mario.getFlipH()); }
+
     mario.render(window.getRenderer(), Vector2((SCREEN_WIDTH/2) - (91/2), (SCREEN_HEIGHT/2) - (184/2)), Vector2(0, 0));
 
     window.flip();
