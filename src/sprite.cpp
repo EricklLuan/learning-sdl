@@ -6,6 +6,8 @@
 Sprite::Sprite(SDL_Texture* texture, Vector2 nSize)
 : sprite_texture(texture), size(nSize) {
   SDL_SetTextureBlendMode(sprite_texture, SDL_BLENDMODE_BLEND);
+  center->x = size.x / 2;
+  center->y = size.y / 2;
 }
 
 Sprite::~Sprite() {
@@ -42,5 +44,9 @@ void Sprite::render(SDL_Renderer* renderer, Vector2 position, Vector2 sprite) {
     (int)size.y
   };
 
-  SDL_RenderCopy(renderer, sprite_texture, &src, &dst);
+  SDL_RenderCopyEx(renderer, sprite_texture, &src, &dst, angle, center, flip);
+}
+
+void Sprite::setCenter(SDL_Point* nCenter) {
+  center = nCenter;
 }

@@ -14,16 +14,17 @@ Game::~Game() {
 }
 
 void Game::run() {
-
-  AnimatedSprite animated_sprite = AnimatedSprite(window.loadTexture("assets/sprite_sheet.png"), Vector2(64, 205), 3);
-
+  Sprite mario = Sprite(window.loadTexture("assets/mario.png"), Vector2(91, 184));
   while (events()) {
 
     if (input.getKeyPressed(SDL_SCANCODE_ESCAPE) == true) return;
 
     window.clear();
 
-    animated_sprite.render(window.getRenderer(), Vector2(), 0, 6);
+    if (input.getKeyHeld(SDL_SCANCODE_F)) {mario.angle += 0.5f;}
+    if (input.getKeyHeld(SDL_SCANCODE_J)) {mario.angle -= 0.5f;}
+
+    mario.render(window.getRenderer(), Vector2((SCREEN_WIDTH/2) - (91/2), (SCREEN_HEIGHT/2) - (184/2)), Vector2(0, 0));
 
     window.flip();
   }
