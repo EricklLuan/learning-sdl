@@ -49,8 +49,6 @@ void Sprite::setCenter(SDL_Point* nCenter) {
   center = nCenter;
 }
 
-// need to make flip both
-
 void Sprite::setFlipH(bool isFliped) {
   flipH = isFliped;
   if (flipH == true) flip = SDL_FLIP_HORIZONTAL;

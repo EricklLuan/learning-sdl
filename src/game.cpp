@@ -1,7 +1,5 @@
 #include "../include/game.hpp"
-#include "../include/sprite.hpp"
-#include "../include/vector2.hpp"
-#include "../include/animated_sprite.hpp"
+#include "../include/label.hpp"
 
 #include <iostream>
 
@@ -14,20 +12,16 @@ Game::~Game() {
 }
 
 void Game::run() {
-  Sprite mario = Sprite(window.loadTexture("assets/mario.png"), Vector2(91, 184));
+
+  Label text = Label(window.getRenderer(), "Hello Word :)", {0, 0, 0});
+
   while (events()) {
 
     if (input.getKeyPressed(SDL_SCANCODE_ESCAPE) == true) return;
 
     window.clear();
-
-    if (input.getKeyHeld(SDL_SCANCODE_F)) {mario.angle += 0.5f;}
-    if (input.getKeyHeld(SDL_SCANCODE_J)) {mario.angle -= 0.5f;}
-
-    if (input.getKeyPressed(SDL_SCANCODE_H)) { mario.setFlipH(!mario.getFlipH()); }
-
-    mario.render(window.getRenderer(), Vector2((SCREEN_WIDTH/2) - (91/2), (SCREEN_HEIGHT/2) - (184/2)), Vector2(0, 0));
-
+    text.render(window.getRenderer(), Vector2((SCREEN_WIDTH - text.getSize().x)/2, (SCREEN_HEIGHT - text.getSize().y)/2));
+    SDL_SetRenderDrawColor(window.getRenderer(), 255, 255, 255, 255);
     window.flip();
   }
 }

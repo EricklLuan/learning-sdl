@@ -28,5 +28,5 @@ void AnimatedSprite::render(SDL_Renderer* renderer, Vector2 position, int vertic
 
   actualFrame = (SDL_GetTicks() / (1000 / fps)) % maxFrames;
 
-  SDL_RenderCopy(renderer, sprite_texture, &src, &dst);
+  SDL_RenderCopyEx(renderer, sprite_texture, &src, &dst, angle, center, flip);
 }
