@@ -9,11 +9,10 @@ Sprite::Sprite(SDL_Texture* texture, Vector2 nSize)
 }
 
 Sprite::~Sprite() {
-  
 }
 
 void Sprite::free() {
-  
+  SDL_DestroyTexture(sprite_texture);
 }
 
 void Sprite::modulate(Vector4 color) {
@@ -59,4 +58,9 @@ void Sprite::setFlipV(bool isFliped) {
   flipV = isFliped;
   if (flipV == true) flip = SDL_FLIP_VERTICAL;
   else flip = SDL_FLIP_NONE;
+}
+
+void Sprite::setTexture(Sprite nValues) {
+  sprite_texture = nValues.getTexture();
+  size = nValues.getSize();
 }

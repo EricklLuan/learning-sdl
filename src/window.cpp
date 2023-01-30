@@ -73,3 +73,35 @@ SDL_Texture* Window::loadTexture(const char* path) {
     return texture;
   }
 }
+
+TTF_Font* Window::loadFont(const char* path, int size) {
+  TTF_Font* font = TTF_OpenFont(path, size);
+  if (font == NULL) {
+    std::cout << "TTF::LOAD::ERROR: " << TTF_GetError() << "\n";
+    return NULL;
+  }
+
+  return font;
+}
+
+Sprite Window::loadLabel(const char* text, TTF_Font* font, Vector4 color) {
+  SDL_Surface* surface = TTF_RenderText_Solid(font, text, {(Uint8)color.r, (Uint8)color.g, (Uint8)color.b});
+
+  if (surface == NULL) {
+    std::cout << "SDL::SURFACE::CREATE::ERROR: " << SDL_GetError() << "\n";
+  }
+
+  SDL_Texture* texture = SDL_CreateTextureFromSurface(renderer, surface);
+
+  if (texture == NULL) {
+    std::cout << "SDL::TEXTURE::CREATE::ERROR: " << SDL_GetError() << "\n";
+  }
+
+  Vector2 size;
+  size.x = surface->w;
+  size.y = surface->h;
+
+  SDL_FreeSurface(surface);
+
+  return {texture, size};
+}

@@ -1,6 +1,8 @@
 #pragma once
 
-#include <SDL2/SDL.h>
+#include "../include/sprite.hpp"
+
+#include <SDL2/SDL_ttf.h>
 #include <unordered_map>
 #include <iostream>
 
@@ -17,6 +19,8 @@ public:
   inline void flip()  { SDL_RenderPresent(renderer); }
 
   SDL_Texture* loadTexture(const char* path);
+  TTF_Font* loadFont(const char* path, int size);
+  Sprite loadLabel(const char* text, TTF_Font* font, Vector4 color);
 
   inline SDL_Window* getWindow()     { return window;   }
   inline SDL_Renderer* getRenderer() { return renderer; }
