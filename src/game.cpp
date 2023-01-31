@@ -1,5 +1,6 @@
 #include "../include/game.hpp"
 #include "../include/sprite.hpp"
+#include "../include/timer.hpp"
 
 #include <iostream>
 #include <sstream>
@@ -17,26 +18,34 @@ void Game::run() {
   TTF_Font* font = window.loadFont("fonts/FreePixel.ttf", 25);
   Sprite text = window.loadLabel("", font, Vector4(255, 255, 255));
 
-  int startTime = 0;
   std::stringstream message;
+
+  Timer timer;
 
   while (events()) {
 
     message.str("");
-    message << "Milliseconds since start time " << SDL_GetTicks() - startTime;
+    message << "Seconds since start time " << (timer.getTime() / 1000.f);
 
     text.setTexture(window.loadLabel(message.str(), font, Vector4(255, 255, 255)));
     
     if (input.getKeyPressed(SDL_SCANCODE_ESCAPE) == true) return;
+    
     if (input.getKeyPressed(SDL_SCANCODE_E) == true) {
-      startTime = SDL_GetTicks();
+      if (timer.isStarted()) timer.stop();
+      else timer.start();
     }
 
+    if (input.getKeyPressed(SDL_SCANCODE_P) == true) {
+      if (timer.isPaused()) timer.play();
+      else timer.pause();
+    }
+    
     window.clear();
 
     text.render(
       window.getRenderer(), 
-      Vector2((SCREEN_WIDTH/2) - (text.getSize().x/2), (SCREEN_HEIGHT/2) - (text.getSize().y/2)), 
+      Vector2(HORIZONTAL_CENTER - text.getSize().x/2, VERTICAL_CENTER - text.getSize().y/2), 
       Vector2()
     );
 

@@ -14,8 +14,8 @@ public:
   Window(const char* title, int width, int height);
   ~Window();
 
-  inline void clear() { SDL_RenderClear(renderer);   }
-  inline void flip()  { SDL_RenderPresent(renderer); }
+  void clear();
+  void flip(); 
 
   SDL_Texture* loadTexture(const char* path);
   TTF_Font* loadFont(const char* path, int size);

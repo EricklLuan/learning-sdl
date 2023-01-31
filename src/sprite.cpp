@@ -2,9 +2,9 @@
 
 #include <iostream>
 
-
 Sprite::Sprite(SDL_Texture* texture, Vector2 nSize)
-: sprite_texture(texture), size(nSize) {
+: sprite_texture(texture), size(nSize), center(NULL) {
+  flip = SDL_FLIP_NONE;
   SDL_SetTextureBlendMode(sprite_texture, SDL_BLENDMODE_BLEND);
 }
 

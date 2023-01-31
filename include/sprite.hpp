@@ -1,21 +1,20 @@
 #pragma once
 
-#include <SDL2/SDL.h>
-
 #include "./vector2.hpp"
 #include "./vector4.hpp"
+
+#include <SDL2/SDL.h>
 
 class Sprite {
 protected:
   SDL_Texture* sprite_texture;
   Vector2 size;
   
-  SDL_RendererFlip flip = SDL_FLIP_NONE;
-  SDL_Point* center = NULL;
+  SDL_RendererFlip flip;
+  SDL_Point* center;
   
   bool flipH = false;
   bool flipV = false;
-
 
 public:
   float angle = 0.0f;
@@ -34,6 +33,7 @@ public:
   inline Vector2 getSize() { return size; }
   inline bool getFlipH() { return flipH; }
   inline bool getFlipV() { return flipV; }
+  inline SDL_Point* getCenter() { return center; }
   
   void setCenter(SDL_Point* nCenter);
   void setFlipH(bool isFliped);

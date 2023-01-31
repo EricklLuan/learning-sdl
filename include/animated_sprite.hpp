@@ -1,9 +1,10 @@
 #pragma once
 
-#include <SDL2/SDL.h>
-
 #include "./sprite.hpp"
 #include "./vector2.hpp"
+
+struct SDL_Texture;
+struct SDL_Renderer;
 
 class AnimatedSprite: private Sprite {
 private:

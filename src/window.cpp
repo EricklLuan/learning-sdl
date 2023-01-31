@@ -1,7 +1,6 @@
 #include "../include/window.hpp"
 
 #include <SDL2/SDL_image.h>
-#include <SDL2/SDL_ttf.h>
 #include <iostream>
 
 Window::Window(const char* title, int width, int height) {
@@ -47,6 +46,14 @@ Window::~Window() {
   TTF_Quit();
   IMG_Quit();
   SDL_Quit();
+}
+
+void Window::clear() {
+  SDL_RenderClear(renderer);
+}
+
+void Window::flip() {
+  SDL_RenderPresent(renderer);
 }
 
 SDL_Texture* Window::loadTexture(const char* path) {
