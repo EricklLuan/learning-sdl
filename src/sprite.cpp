@@ -61,6 +61,7 @@ void Sprite::setFlipV(bool isFliped) {
 }
 
 void Sprite::setTexture(Sprite nValues) {
+  SDL_DestroyTexture(sprite_texture);
   sprite_texture = nValues.getTexture();
   size = nValues.getSize();
 }

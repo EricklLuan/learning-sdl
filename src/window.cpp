@@ -43,7 +43,6 @@ Window::Window(const char* title, int width, int height) {
 }
 
 Window::~Window() {
-  SDL_DestroyRenderer(renderer);
   SDL_DestroyWindow(window);
   TTF_Quit();
   IMG_Quit();
@@ -84,8 +83,13 @@ TTF_Font* Window::loadFont(const char* path, int size) {
   return font;
 }
 
-Sprite Window::loadLabel(const char* text, TTF_Font* font, Vector4 color) {
-  SDL_Surface* surface = TTF_RenderText_Solid(font, text, {(Uint8)color.r, (Uint8)color.g, (Uint8)color.b});
+Sprite Window::loadLabel(std::string text, TTF_Font* font, Vector4 color) {
+  
+  if (text == "") {
+    text = "Insert Text Here";
+  }
+
+  SDL_Surface* surface = TTF_RenderText_Solid(font, text.c_str(), {(Uint8)color.r, (Uint8)color.g, (Uint8)color.b});
 
   if (surface == NULL) {
     std::cout << "SDL::SURFACE::CREATE::ERROR: " << SDL_GetError() << "\n";

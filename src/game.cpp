@@ -2,6 +2,7 @@
 #include "../include/sprite.hpp"
 
 #include <iostream>
+#include <sstream>
 
 Game::Game() {
 
@@ -13,17 +14,23 @@ Game::~Game() {
 
 void Game::run() {
 
-  TTF_Font* font = window.loadFont("fonts/FreePixel.ttf", 50);
-  Sprite text = window.loadLabel("Hello Word", font, Vector4(255, 255, 255));
+  TTF_Font* font = window.loadFont("fonts/FreePixel.ttf", 25);
+  Sprite text = window.loadLabel("", font, Vector4(255, 255, 255));
+
+  int startTime = 0;
+  std::stringstream message;
 
   while (events()) {
 
+    message.str("");
+    message << "Milliseconds since start time " << SDL_GetTicks() - startTime;
+
+    text.setTexture(window.loadLabel(message.str(), font, Vector4(255, 255, 255)));
+    
     if (input.getKeyPressed(SDL_SCANCODE_ESCAPE) == true) return;
     if (input.getKeyPressed(SDL_SCANCODE_E) == true) {
-      text.setTexture(window.loadLabel("Changed", font, Vector4(255, 255, 255)));
+      startTime = SDL_GetTicks();
     }
-
-    text.angle += 0.01;
 
     window.clear();
 

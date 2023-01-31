@@ -4,7 +4,6 @@
 
 #include <SDL2/SDL_ttf.h>
 #include <unordered_map>
-#include <iostream>
 
 class Window {
 private:
@@ -20,7 +19,7 @@ public:
 
   SDL_Texture* loadTexture(const char* path);
   TTF_Font* loadFont(const char* path, int size);
-  Sprite loadLabel(const char* text, TTF_Font* font, Vector4 color);
+  Sprite loadLabel(std::string text, TTF_Font* font, Vector4 color);
 
   inline SDL_Window* getWindow()     { return window;   }
   inline SDL_Renderer* getRenderer() { return renderer; }
