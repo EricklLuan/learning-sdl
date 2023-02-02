@@ -1,5 +1,6 @@
 #include "../include/game.hpp"
 #include "../include/sprite.hpp"
+#include "../include/dot.hpp"
 
 #include <iostream>
 #include <sstream>
@@ -14,33 +15,24 @@ Game::~Game() {
 
 void Game::run() {
 
-  Sprite text = window.loadLabel("", font, Vector4(255, 255, 255));
-
-  std::stringstream message;
+  Sprite player = Sprite(window.loadTexture("assets/sprites.png"), Vector2(100, 100));
+  Dot dot = Dot(player, Vector2());
 
   while (events()) {
     newFrame();
-
-    message.str("");
-    message << "FPS " << FPS;
-
-    text.setTexture(window.loadLabel(message.str(), font, Vector4(255, 255, 255)));
+    dot.handleEvent(&input);
 
     if (input.getKeyPressed(SDL_SCANCODE_ESCAPE) == true) return;
     
+    dot.move();
+
     window.clear();
 
-    text.render(
-      window.getRenderer(), 
-      Vector2(HORIZONTAL_CENTER - text.getSize().x/2, VERTICAL_CENTER - text.getSize().y/2), 
-      Vector2()
-    );
+    dot.render(window.getRenderer());
 
     window.flip();
     endFrame();
   }
-
-  text.free();
 }
 
 bool Game::events() {
