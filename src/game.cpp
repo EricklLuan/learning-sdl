@@ -15,12 +15,19 @@ Game::~Game() {
 
 void Game::run() {
 
-  Sprite player = Sprite(window.loadTexture("assets/sprites.png"), Vector2(100, 100));
-  Dot dot = Dot(player, Vector2());
+  Sprite player = Sprite(window.loadTexture("assets/dot.png"), Vector2(20, 20));
+  Dot dot = Dot(player, Vector2(
+    HORIZONTAL_CENTER - 10,
+    VERTICAL_CENTER - 10
+  ));
+
+  Sprite fps_text = window.loadLabel("", font, Vector4(255, 255, 255));
 
   while (events()) {
     newFrame();
     dot.handleEvent(&input);
+
+    fps_text.setTexture(window.loadLabel("FPS: " + std::to_string(FPS), font, Vector4(255, 255, 255)));
 
     if (input.getKeyPressed(SDL_SCANCODE_ESCAPE) == true) return;
     
@@ -29,6 +36,7 @@ void Game::run() {
     window.clear();
 
     dot.render(window.getRenderer());
+    fps_text.render(window.getRenderer(), Vector2(10, 10), Vector2());
 
     window.flip();
     endFrame();

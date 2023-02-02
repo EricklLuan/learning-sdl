@@ -12,12 +12,10 @@ void Dot::handleEvent(Input* input) {
   if (input->getKeyPressed(SDL_SCANCODE_LEFT)) velocity.x -= DOT_VEL;
   if (input->getKeyPressed(SDL_SCANCODE_RIGHT)) velocity.x += DOT_VEL;
 
-  if (velocity.x != 0 || velocity.y != 0) {
-    if (input->getKeyRelesead(SDL_SCANCODE_UP)) velocity.y += DOT_VEL;
-    if (input->getKeyRelesead(SDL_SCANCODE_DOWN)) velocity.y -= DOT_VEL;
-    if (input->getKeyRelesead(SDL_SCANCODE_LEFT)) velocity.x += DOT_VEL;
-    if (input->getKeyRelesead(SDL_SCANCODE_RIGHT)) velocity.x -= DOT_VEL;
-  }
+  if (input->getKeyRelesead(SDL_SCANCODE_UP)) velocity.y += DOT_VEL;
+  if (input->getKeyRelesead(SDL_SCANCODE_DOWN)) velocity.y -= DOT_VEL;
+  if (input->getKeyRelesead(SDL_SCANCODE_LEFT)) velocity.x += DOT_VEL;
+  if (input->getKeyRelesead(SDL_SCANCODE_RIGHT)) velocity.x -= DOT_VEL;
 }
 
 void Dot::move() {
