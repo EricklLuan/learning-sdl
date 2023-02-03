@@ -29,6 +29,7 @@ private:
 
   void newFrame();
   void endFrame();
+  bool checkCollision(SDL_Rect* a, SDL_Rect* b);
 
 public:
   

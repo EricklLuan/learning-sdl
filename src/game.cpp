@@ -17,11 +17,17 @@ void Game::run() {
 
   Sprite player = Sprite(window.loadTexture("assets/dot.png"), Vector2(20, 20));
   Dot dot = Dot(player, Vector2(
-    HORIZONTAL_CENTER - 10,
-    VERTICAL_CENTER - 10
+    50,
+    50
   ));
 
   Sprite fps_text = window.loadLabel("", font, Vector4(255, 255, 255));
+
+  SDL_Rect wall;
+  wall.w = 50;
+  wall.h = 300;
+  wall.x = HORIZONTAL_CENTER - 25;
+  wall.y = VERTICAL_CENTER - 150;
 
   while (events()) {
     newFrame();
@@ -31,11 +37,17 @@ void Game::run() {
 
     if (input.getKeyPressed(SDL_SCANCODE_ESCAPE) == true) return;
     
-    dot.move();
+    dot.move(wall);
 
     window.clear();
 
+    SDL_SetRenderDrawColor(window.getRenderer(), 255, 255, 255, 255);
+    SDL_RenderDrawRect(window.getRenderer(), &wall);
+
+    SDL_SetRenderDrawColor(window.getRenderer(), 0, 0, 0, 255);
+
     dot.render(window.getRenderer());
+    
     fps_text.render(window.getRenderer(), Vector2(10, 10), Vector2());
 
     window.flip();
@@ -81,4 +93,23 @@ void Game::endFrame() {
   if (frameTicks < SCREEN_TICKS_PER_FRAME - frameTicks) {
     SDL_Delay(SCREEN_TICKS_PER_FRAME - frameTicks);
   }
+}
+
+bool Game::checkCollision(SDL_Rect* a, SDL_Rect* b) {
+  int leftA = a->x;
+  int rightA = a->x + a->w;
+  int topA = a->y;
+  int bottomA = a->y + a->h;
+
+  int leftB = b->x;
+  int rightB = b->x + b->w;
+  int topB = b->y;
+  int bottomB = b->y + b->h;
+
+  if (bottomA <= topB) return false;
+  if (topA >= bottomB) return false;
+  if (leftA >= rightB) return false;
+  if (rightA <= leftB) return false;
+
+  return true;
 }
