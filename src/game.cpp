@@ -16,18 +16,15 @@ Game::~Game() {
 void Game::run() {
 
   Sprite player = Sprite(window.loadTexture("assets/dot.png"), Vector2(20, 20));
-  Dot dot = Dot(player, Vector2(
-    50,
-    50
+  Dot dot = Dot(player, Vector2());
+  Dot otherDot = Dot(player, Vector2(
+    HORIZONTAL_CENTER - 5,
+    VERTICAL_CENTER - 5
   ));
 
   Sprite fps_text = window.loadLabel("", font, Vector4(255, 255, 255));
 
-  SDL_Rect wall;
-  wall.w = 50;
-  wall.h = 300;
-  wall.x = HORIZONTAL_CENTER - 25;
-  wall.y = VERTICAL_CENTER - 150;
+
 
   while (events()) {
     newFrame();
@@ -37,16 +34,14 @@ void Game::run() {
 
     if (input.getKeyPressed(SDL_SCANCODE_ESCAPE) == true) return;
     
-    dot.move(wall);
+    dot.move(otherDot.getColliders());
 
     window.clear();
-
-    SDL_SetRenderDrawColor(window.getRenderer(), 255, 255, 255, 255);
-    SDL_RenderDrawRect(window.getRenderer(), &wall);
 
     SDL_SetRenderDrawColor(window.getRenderer(), 0, 0, 0, 255);
 
     dot.render(window.getRenderer());
+    otherDot.render(window.getRenderer());
     
     fps_text.render(window.getRenderer(), Vector2(10, 10), Vector2());
 
