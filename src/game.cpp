@@ -16,35 +16,37 @@ Game::~Game() {
 void Game::run() {
 
   Sprite player = Sprite(window.loadTexture("assets/dot.png"), Vector2(20, 20));
+  Sprite bg = Sprite(window.loadTexture("assets/bg.png"), Vector2(500, 500));
   Dot dot = Dot(player, Vector2());
-  Dot otherDot = Dot(player, Vector2(
-    HORIZONTAL_CENTER - 5,
-    VERTICAL_CENTER - 5
-  ));
 
   Sprite fps_text = window.loadLabel("", font, Vector4(255, 255, 255));
 
-
+  SDL_Rect camera = {
+    0, 0, SCREEN_WIDTH, SCREEN_HEIGHT
+  };
 
   while (events()) {
     newFrame();
     dot.handleEvent(&input);
 
     fps_text.setTexture(window.loadLabel("FPS: " + std::to_string(FPS), font, Vector4(255, 255, 255)));
-
+  
     if (input.getKeyPressed(SDL_SCANCODE_ESCAPE) == true) return;
     
-    dot.move(otherDot.getColliders());
+    dot.move();
+
+    camera.x = ( dot.getPostion().x + Dot::DOT_WIDTH / 2 ) - SCREEN_WIDTH/2;
+    camera.y = ( dot.getPostion().y + Dot::DOT_HEIGHT / 2 ) - SCREEN_HEIGHT/2;
+
+    if (camera.x < 0) camera.x = 0;
+    if (camera.y < 0) camera.y = 0;
+    if (camera.x > 1280 - camera.w) camera.x = 1280 - camera.w;
+    if (camera.y > 960 - camera.h) camera.y = 960 - camera.h;
 
     window.clear();
-
-    SDL_SetRenderDrawColor(window.getRenderer(), 0, 0, 0, 255);
-
-    dot.render(window.getRenderer());
-    otherDot.render(window.getRenderer());
-    
+    bg.render(window.getRenderer(), Vector2(camera.x, camera.y), Vector2());
+    dot.render(window.getRenderer(), Vector2(camera.x, camera.y));
     fps_text.render(window.getRenderer(), Vector2(10, 10), Vector2());
-
     window.flip();
     endFrame();
   }

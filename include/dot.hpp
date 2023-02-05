@@ -13,25 +13,19 @@ private:
 
   Sprite sprite;
 
-  SDL_Rect collider;
-  std::vector<SDL_Rect> colliders;
-
-  void shiftColliders();
-
 public:
   static const int DOT_WIDTH = 20;
   static const int DOT_HEIGHT = 20;
 
-  static const int DOT_VEL = 1;
+  static const int DOT_VEL = 5;
 
   Dot(Sprite texture, Vector2 _position);
 
   void handleEvent(Input* input);
 
-  bool checkCollision(std::vector<SDL_Rect>& a, std::vector<SDL_Rect>& b);
+  void move();
+  void render(SDL_Renderer* renderer, Vector2 camera_pos);
 
-  void move(std::vector<SDL_Rect>& oColliders);
-  void render(SDL_Renderer* renderer);
+  inline Vector2 getPostion() { return position; }
 
-  inline std::vector<SDL_Rect>& getColliders() {return colliders;}
 };
