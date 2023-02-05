@@ -21,18 +21,18 @@ void Dot::handleEvent(Input* input) {
 void Dot::move() {
   position.x += velocity.x;
 
-  if (position.x < 0 || position.x + DOT_WIDTH > 1280) {
+  if (position.x < 0 || position.x + DOT_WIDTH > 500) {
     position.x -= velocity.x;
   }
 
   position.y += velocity.y;
 
-  if (position.y < 0 || position.y + DOT_HEIGHT > 960) {
+  if (position.y < 0 || position.y + DOT_HEIGHT > 500) {
     position.y -= velocity.y;
   }
 }
 
-void Dot::render(SDL_Renderer* renderer, Vector2 camera_pos) {
-  sprite.render(renderer, Vector2(position.x - camera_pos.x, position.y - camera_pos.y), Vector2());
+void Dot::render(SDL_Renderer* renderer) {
+  sprite.render(renderer, position, Vector2());
 }
 

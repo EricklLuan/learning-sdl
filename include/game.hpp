@@ -29,7 +29,8 @@ private:
 
   void newFrame();
   void endFrame();
-  bool checkCollision(SDL_Rect* a, SDL_Rect* b);
+
+  std::string inputText = "Some Text";
 
 public:
   

@@ -24,7 +24,7 @@ public:
   void handleEvent(Input* input);
 
   void move();
-  void render(SDL_Renderer* renderer, Vector2 camera_pos);
+  void render(SDL_Renderer* renderer);
 
   inline Vector2 getPostion() { return position; }
 
