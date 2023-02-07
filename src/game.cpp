@@ -16,8 +16,48 @@ Game::~Game() {
 void Game::run() {
 
   Sprite inputTextTexture = window.loadLabel("", font, Vector4(0xFF, 0xFF, 0xFF, 0xFF));
+  Sprite textures[10] = {
+    window.loadLabel("", font, Vector4(255, 255, 255)),
+    window.loadLabel("", font, Vector4(255, 255, 255)),
+    window.loadLabel("", font, Vector4(255, 255, 255)),
+    window.loadLabel("", font, Vector4(255, 255, 255)),
+    window.loadLabel("", font, Vector4(255, 255, 255)),
+    window.loadLabel("", font, Vector4(255, 255, 255)),
+    window.loadLabel("", font, Vector4(255, 255, 255)),
+    window.loadLabel("", font, Vector4(255, 255, 255)),
+    window.loadLabel("", font, Vector4(255, 255, 255)),
+    window.loadLabel("", font, Vector4(255, 255, 255)),
+  };  
 
   SDL_StartTextInput();
+  
+  Sint32 data[10];
+  SDL_RWops* file = SDL_RWFromFile("assets/file.bin", "r+b");
+
+  if (file == NULL) {
+    std::cout << "SDL::FILE::READ::ERROR: " << SDL_GetError() << "\n";
+    file = SDL_RWFromFile("assets/file.bin", "w+b");
+
+    if (file != NULL) {
+      std::cout << "SDL::FILE::CREATE::SUCCESS \n";
+      for (int i=0; i < 9; i++) {
+        data[i] = i;
+        SDL_RWwrite(file, &data[i], sizeof(Sint32), 1);
+      }
+      SDL_RWclose(file);
+    }
+  } else {
+    std::cout << "SDL::FILE::READ \n";
+    for (int i=0; i < 9; i++) {
+      SDL_RWread(file, &data[i], sizeof(Sint32), 1);
+    }
+    SDL_RWclose(file);
+  }
+
+
+  for (int i=0; i < 9; i++) {
+    textures[i].setTexture(window.loadLabel(std::to_string(data[i]), font, Vector4(255, 255, 255)));
+  }
 
   while (events()) {
     newFrame();
@@ -32,6 +72,17 @@ void Game::run() {
       HORIZONTAL_CENTER - (inputTextTexture.getSize().x/2),
       VERTICAL_CENTER - (inputTextTexture.getSize().y/2)
     ), Vector2());
+
+    for (int i=0; i < 9; i++) {
+      textures[i].render(
+        window.getRenderer(),
+        Vector2(
+          HORIZONTAL_CENTER - (textures[i].getSize().x/2),
+          VERTICAL_CENTER - (textures[i].getSize().y/2) + (inputTextTexture.getSize().y * (i + 1))
+        ),
+        Vector2()
+      );
+    }
 
     window.flip();
     endFrame();
