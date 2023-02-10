@@ -18,6 +18,9 @@ private:
   bool keyboardFocus;
   bool fullScreen;
   bool minimized;
+  bool isOpen;
+
+  int id;
 public:
   Input input;
 
@@ -26,6 +29,8 @@ public:
 
   void clear();
   void flip();
+  void focus();
+  void render();
 
   bool handleEvent(SDL_Event &event);
 
@@ -36,6 +41,7 @@ public:
   inline bool hasMouseFocus() { return mouseFocus; }
   inline bool hasKeyboardFocus() { return keyboardFocus; }
   inline bool isMinimized() { return minimized; }
+  inline bool isWOpen() { return isOpen; }
   inline SDL_Window* getWindow()     { return window;   }
   inline SDL_Renderer* getRenderer() { return renderer; }
 };

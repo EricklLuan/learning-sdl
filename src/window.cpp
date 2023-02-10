@@ -5,8 +5,8 @@
 #include <sstream>
 
 Window::Window(const char* title, int width, int height)
-:size(Vector2(width, height)), mouseFocus(true), keyboardFocus(true), fullScreen(false), minimized(false) {
-  
+:size(Vector2(width, height)), mouseFocus(true), keyboardFocus(true), fullScreen(false), minimized(false), isOpen(true) {
+
   if (SDL_Init(SDL_INIT_VIDEO) != 0) {
     std::cout << "SDL::INIT::ERROR: " << SDL_GetError() << "\n";
   }
@@ -41,6 +41,8 @@ Window::Window(const char* title, int width, int height)
   if (renderer == NULL) {
     std::cout << "SDL::RENDERER::CREATE::ERROR: " << SDL_GetError() << "\n";
   }
+
+  id = SDL_GetWindowID(window);
 }
 
 Window::~Window() {
@@ -58,24 +60,45 @@ void Window::flip() {
   SDL_RenderPresent(renderer);
 }
 
+void Window::focus() {
+  if (!isOpen) {
+    SDL_ShowWindow(window);
+  }
+
+  SDL_RaiseWindow(window);
+}
+
+void Window::render() {
+  if (!minimized) {
+    SDL_SetRenderDrawColor(renderer, 0, 0, 0, 255);
+    clear();
+
+    flip();
+  }
+}
+
 bool Window::handleEvent(SDL_Event &event) {
   input.new_frame();
 
-
-  if (SDL_PollEvent(&event)) {
-    switch (event.type) {
-    case SDL_QUIT:
-      return false;
-      break;
-    case SDL_KEYDOWN:
+    if (event.type == SDL_KEYDOWN) {
       if (event.key.repeat == 0) input.key_down_event(event);
-      break;
-    case SDL_KEYUP:
+    }
+
+    if (event.type == SDL_KEYUP) {
       input.key_up_event(event);
-      break;
-    case SDL_WINDOWEVENT:
+    }
+
+    if (event.type == SDL_WINDOWEVENT && event.window.windowID == id) {
       bool updateCaption = false;
       switch (event.window.event) {
+
+      case SDL_WINDOWEVENT_SHOWN:
+        isOpen = true;
+        break;
+      
+      case SDL_WINDOWEVENT_HIDDEN:
+        isOpen = false;
+        break;
 
       case SDL_WINDOWEVENT_SIZE_CHANGED:
         size.x = event.window.data1;
@@ -119,29 +142,28 @@ bool Window::handleEvent(SDL_Event &event) {
         minimized = false;
         break;
 
+      case SDL_WINDOWEVENT_CLOSE:
+        SDL_HideWindow(window);
+
       default:
         if (updateCaption) {
           std::stringstream caption;
           caption << "SDL Tutorial - MouseFocus:" << ( ( mouseFocus ) ? "On" : "Off" ) << " KeyboardFocus:" << ( ( keyboardFocus ) ? "On" : "Off" );
           SDL_SetWindowTitle(window, caption.str().c_str());
         }
+
+        if (input.getKeyPressed(SDL_SCANCODE_F11) == true) {
+          if (fullScreen) {
+            SDL_SetWindowFullscreen(window, SDL_FALSE);
+            fullScreen = false;
+          } else {
+            SDL_SetWindowFullscreen(window, SDL_TRUE);
+            fullScreen = true;
+          }
+        }
         break;
       }
-    break;
     }
-
-    if (input.getKeyPressed(SDL_SCANCODE_F11) == true) {
-      if (fullScreen) {
-        SDL_SetWindowFullscreen(window, SDL_FALSE);
-        fullScreen = false;
-      } else {
-        SDL_SetWindowFullscreen(window, SDL_TRUE);
-        fullScreen = true;
-      }
-    }
-
-  }
-
   return true;
 }
 

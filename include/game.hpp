@@ -14,7 +14,12 @@ const int SCREEN_TICKS_PER_FRAME = 1000 / FPS;
 
 class Game {
 private:
-  Window window = Window("Learning SDL", SCREEN_WIDTH, SCREEN_HEIGHT);
+  Window window[3] = {
+    Window("Learning SDL", SCREEN_WIDTH, SCREEN_HEIGHT),
+    Window("Learning SDL", SCREEN_WIDTH, SCREEN_HEIGHT),
+    Window("Learning SDL", SCREEN_WIDTH, SCREEN_HEIGHT)
+  };
+  
   SDL_Event event;
 
   TTF_Font* font;
@@ -23,6 +28,8 @@ private:
   Timer countFps;
   int frames = 0;
   float FPS;
+
+  bool quit = false;
 
   void newFrame();
   void endFrame();

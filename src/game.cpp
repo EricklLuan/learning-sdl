@@ -5,7 +5,7 @@
 #include <iostream>
 #include <sstream>
 
-Game::Game(): font(window.loadFont("fonts/FreePixel.ttf", 25)) {
+Game::Game(): font(window[0].loadFont("fonts/FreePixel.ttf", 25)) {
   countFps.start();
 }
 
@@ -14,15 +14,54 @@ Game::~Game() {
 }
 
 void Game::run() {
-
-  
-  while (window.handleEvent(event)) {
+    while (!quit) {
     newFrame();
 
-    if (window.input.getKeyPressed(SDL_SCANCODE_ESCAPE) == true) return;
+    if (SDL_PollEvent(&event)) {
+      if (event.type == SDL_QUIT) {
+        quit = true;
+      }
+
+      for (int i=0; i <= 2; i++) {
+        if (!window[i].handleEvent(event)) quit = true;
+      }
+
+      if (event.type == SDL_KEYDOWN) {
+        switch (event.key.keysym.sym) {
+        case SDLK_1:
+          window[0].focus();
+          break;
+        
+        case SDLK_2:
+          window[1].focus();
+          break;
+
+        case SDLK_3:
+          window[2].focus();
+          break;
+
+        default:
+          break;
+        }
+      }
+    }
+
+    for (int i=0; i <= 2; i++) {
+      window[i].render();
+    }
+
+    bool allClose = true;
+    for (int i = 0; i <= 2; i++) {
+      if (window[i].isWOpen()) {
+        allClose = false;
+        break;
+      }
+    }
+
+    if (allClose) {
+      quit = true;
+    }
     
-    window.clear();
-    window.flip();
     endFrame();
   }
 }
