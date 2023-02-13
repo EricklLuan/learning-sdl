@@ -3,6 +3,7 @@
 #include "./input.hpp"
 #include "./vector2.hpp"
 #include "./sprite.hpp"
+#include "./particle.hpp"
 
 #include <vector>
 
@@ -13,6 +14,8 @@ private:
 
   Sprite sprite;
 
+  Particle *particles[20];
+
 public:
   static const int DOT_WIDTH = 20;
   static const int DOT_HEIGHT = 20;
@@ -20,6 +23,8 @@ public:
   static const int DOT_VEL = 5;
 
   Dot(Sprite texture, Vector2 _position);
+
+  ~Dot();
 
   void handleEvent(Input* input);
 

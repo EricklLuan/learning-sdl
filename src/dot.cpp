@@ -2,7 +2,15 @@
 
 Dot::Dot(Sprite texture, Vector2 _position=Vector2()): 
 position(_position), velocity(Vector2()), sprite(texture) {
+  for (int i = 0; i < 19; i++) {
+    particles[i] = new Particle(texture, position);
+  }
+}
 
+Dot::~Dot() {
+  for (int i = 0; i < 19; i++) {
+    delete particles[i];
+  }
 }
 
 void Dot::handleEvent(Input* input) {
@@ -33,6 +41,17 @@ void Dot::move() {
 }
 
 void Dot::render(SDL_Renderer* renderer) {
+  for (int i = 0; i < 19; i++) {
+    if (particles[i]->isDead()) {
+      delete particles[i];
+      particles[i] = new Particle(sprite, position);
+    }
+  }
+
+  for (int i = 0; i < 19; i++) {
+    particles[i]->render(renderer);
+  }
+
   sprite.render(renderer, position, Vector2());
 }
 

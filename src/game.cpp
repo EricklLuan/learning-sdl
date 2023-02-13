@@ -14,10 +14,15 @@ Game::~Game() {
 }
 
 void Game::run() {
-    while (!quit) {
+
+  Sprite dot = Sprite(window[2].loadTexture("assets/dot.png"), Vector2(20, 20));
+  Dot player = Dot(dot, Vector2(20, 20));
+
+  while (!quit) {
     newFrame();
 
     if (SDL_PollEvent(&event)) {
+      player.handleEvent(&window[2].input);
       if (event.type == SDL_QUIT) {
         quit = true;
       }
@@ -46,7 +51,13 @@ void Game::run() {
       }
     }
 
-    for (int i=0; i <= 2; i++) {
+    player.move();
+
+    window[2].clear();
+    player.render(window[2].getRenderer());
+    window[2].flip();
+
+    for (int i=0; i <= 1; i++) {
       window[i].render();
     }
 
