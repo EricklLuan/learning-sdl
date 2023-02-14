@@ -80,90 +80,90 @@ void Window::render() {
 bool Window::handleEvent(SDL_Event &event) {
   input.new_frame();
 
-    if (event.type == SDL_KEYDOWN) {
-      if (event.key.repeat == 0) input.key_down_event(event);
-    }
+  if (event.type == SDL_KEYDOWN) {
+    if (event.key.repeat == 0) input.key_down_event(event);
+  }
 
-    if (event.type == SDL_KEYUP) {
-      input.key_up_event(event);
-    }
+  if (event.type == SDL_KEYUP) {
+    if (event.key.repeat == 0) input.key_up_event(event);
+  }
 
-    if (event.type == SDL_WINDOWEVENT && event.window.windowID == id) {
-      bool updateCaption = false;
-      switch (event.window.event) {
+  if (event.type == SDL_WINDOWEVENT && event.window.windowID == id) {
+    bool updateCaption = false;
+    switch (event.window.event) {
 
-      case SDL_WINDOWEVENT_SHOWN:
-        isOpen = true;
-        break;
-      
-      case SDL_WINDOWEVENT_HIDDEN:
-        isOpen = false;
-        break;
+    case SDL_WINDOWEVENT_SHOWN:
+      isOpen = true;
+      break;
+    
+    case SDL_WINDOWEVENT_HIDDEN:
+      isOpen = false;
+      break;
 
-      case SDL_WINDOWEVENT_SIZE_CHANGED:
-        size.x = event.window.data1;
-        size.y = event.window.data2;
-        flip();
-        break;
+    case SDL_WINDOWEVENT_SIZE_CHANGED:
+      size.x = event.window.data1;
+      size.y = event.window.data2;
+      flip();
+      break;
 
-      case SDL_WINDOWEVENT_EXPOSED:
-        flip();
-        break;
-      
-      case SDL_WINDOWEVENT_ENTER:
-        mouseFocus = true;
-        updateCaption = true;
-        break;
-      
-      case SDL_WINDOWEVENT_LEAVE:
-        mouseFocus = false;
-        updateCaption = true;
-        break;
-      
-      case SDL_WINDOWEVENT_FOCUS_GAINED:
-        keyboardFocus = true;
-        updateCaption = true;
-        break;
-      
-      case SDL_WINDOWEVENT_FOCUS_LOST:
-        keyboardFocus = false;
-        updateCaption = true;
-        break;
-      
-      case SDL_WINDOWEVENT_MAXIMIZED:
-        minimized = false;
-        break;
-      
-      case SDL_WINDOWEVENT_MINIMIZED:
-        minimized = true;
-        break;
-      
-      case SDL_WINDOWEVENT_RESTORED:
-        minimized = false;
-        break;
+    case SDL_WINDOWEVENT_EXPOSED:
+      flip();
+      break;
+    
+    case SDL_WINDOWEVENT_ENTER:
+      mouseFocus = true;
+      updateCaption = true;
+      break;
+    
+    case SDL_WINDOWEVENT_LEAVE:
+      mouseFocus = false;
+      updateCaption = true;
+      break;
+    
+    case SDL_WINDOWEVENT_FOCUS_GAINED:
+      keyboardFocus = true;
+      updateCaption = true;
+      break;
+    
+    case SDL_WINDOWEVENT_FOCUS_LOST:
+      keyboardFocus = false;
+      updateCaption = true;
+      break;
+    
+    case SDL_WINDOWEVENT_MAXIMIZED:
+      minimized = false;
+      break;
+    
+    case SDL_WINDOWEVENT_MINIMIZED:
+      minimized = true;
+      break;
+    
+    case SDL_WINDOWEVENT_RESTORED:
+      minimized = false;
+      break;
 
-      case SDL_WINDOWEVENT_CLOSE:
-        SDL_HideWindow(window);
+    case SDL_WINDOWEVENT_CLOSE:
+      SDL_HideWindow(window);
 
-      default:
-        if (updateCaption) {
-          std::stringstream caption;
-          caption << "SDL Tutorial - MouseFocus:" << ( ( mouseFocus ) ? "On" : "Off" ) << " KeyboardFocus:" << ( ( keyboardFocus ) ? "On" : "Off" );
-          SDL_SetWindowTitle(window, caption.str().c_str());
-        }
-
-        if (input.getKeyPressed(SDL_SCANCODE_F11) == true) {
-          if (fullScreen) {
-            SDL_SetWindowFullscreen(window, SDL_FALSE);
-            fullScreen = false;
-          } else {
-            SDL_SetWindowFullscreen(window, SDL_TRUE);
-            fullScreen = true;
-          }
-        }
-        break;
+    default:
+      if (updateCaption) {
+        std::stringstream caption;
+        caption << "SDL Tutorial - MouseFocus:" << ( ( mouseFocus ) ? "On" : "Off" ) << " KeyboardFocus:" << ( ( keyboardFocus ) ? "On" : "Off" );
+        SDL_SetWindowTitle(window, caption.str().c_str());
       }
+
+      if (input.getKeyPressed(SDL_SCANCODE_F11) == true) {
+        if (fullScreen) {
+          SDL_SetWindowFullscreen(window, SDL_FALSE);
+          fullScreen = false;
+        } else {
+          SDL_SetWindowFullscreen(window, SDL_TRUE);
+          fullScreen = true;
+        }
+      }
+      break;
     }
+  }
   return true;
 }
 

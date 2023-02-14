@@ -14,8 +14,6 @@ private:
 
   Sprite sprite;
 
-  Particle *particles[20];
-
 public:
   static const int DOT_WIDTH = 20;
   static const int DOT_HEIGHT = 20;
@@ -29,7 +27,7 @@ public:
   void handleEvent(Input* input);
 
   void move();
-  void render(SDL_Renderer* renderer);
+  void render(SDL_Renderer* renderer, Vector2 camera_positon);
 
   inline Vector2 getPostion() { return position; }
 

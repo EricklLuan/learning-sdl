@@ -38,6 +38,7 @@ public:
   void setCenter(SDL_Point* nCenter);
   void setFlipH(bool isFliped);
   void setFlipV(bool isFliped);
+  inline void setSize(Vector2 nsize) { size = nsize; }
 
   void setTexture(Sprite nValues);
 };

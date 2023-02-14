@@ -5,7 +5,7 @@
 #include <iostream>
 #include <sstream>
 
-Game::Game(): font(window[0].loadFont("fonts/FreePixel.ttf", 25)) {
+Game::Game(): font(window.loadFont("fonts/FreePixel.ttf", 25)) {
   countFps.start();
 }
 
@@ -15,64 +15,40 @@ Game::~Game() {
 
 void Game::run() {
 
-  Sprite dot = Sprite(window[2].loadTexture("assets/dot.png"), Vector2(20, 20));
+  Sprite dot = Sprite(window.loadTexture("assets/dot.png"), Vector2(20, 20));
   Dot player = Dot(dot, Vector2(20, 20));
+
+  SDL_Rect camera = { 0, 0, 500, 500 };
+
+  Sprite mario = Sprite(window.loadTexture("assets/mario.png"), Vector2(500, 500));
 
   while (!quit) {
     newFrame();
 
     if (SDL_PollEvent(&event)) {
-      player.handleEvent(&window[2].input);
       if (event.type == SDL_QUIT) {
         quit = true;
       }
 
-      for (int i=0; i <= 2; i++) {
-        if (!window[i].handleEvent(event)) quit = true;
-      }
-
-      if (event.type == SDL_KEYDOWN) {
-        switch (event.key.keysym.sym) {
-        case SDLK_1:
-          window[0].focus();
-          break;
-        
-        case SDLK_2:
-          window[1].focus();
-          break;
-
-        case SDLK_3:
-          window[2].focus();
-          break;
-
-        default:
-          break;
-        }
-      }
+      window.handleEvent(event);
+      player.handleEvent(&window.input);
     }
 
     player.move();
 
-    window[2].clear();
-    player.render(window[2].getRenderer());
-    window[2].flip();
-
-    for (int i=0; i <= 1; i++) {
-      window[i].render();
-    }
-
-    bool allClose = true;
-    for (int i = 0; i <= 2; i++) {
-      if (window[i].isWOpen()) {
-        allClose = false;
-        break;
-      }
-    }
-
-    if (allClose) {
-      quit = true;
-    }
+    camera.x = ( player.getPostion().x + Dot::DOT_WIDTH/2 ) - SCREEN_WIDTH/2;
+    camera.y = ( player.getPostion().y + Dot::DOT_HEIGHT/2 ) - SCREEN_HEIGHT/2;
     
+    if (camera.x < 0) camera.x=0;
+    if (camera.y < 0) camera.y=0;
+    if (camera.x > 1280 - camera.w) camera.x = 1280 - camera.w;
+    if (camera.y > 960 - camera.h) camera.y = 960 - camera.h;
+
+    window.clear();
+    mario.render(window.getRenderer(), Vector2((-camera.x) + (1280/2 - 500/2), (-camera.y) + (960/2 - 500/2)), Vector2());
+    player.render(window.getRenderer(), Vector2(camera.x, camera.y));
+    window.flip();
+
     endFrame();
   }
 }
