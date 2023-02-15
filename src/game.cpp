@@ -15,12 +15,27 @@ Game::~Game() {
 
 void Game::run() {
 
-  Sprite dot = Sprite(window.loadTexture("assets/dot.png"), Vector2(20, 20));
-  Dot player = Dot(dot, Vector2(20, 20));
+  Sprite dot = Sprite();
 
   SDL_Rect camera = { 0, 0, 500, 500 };
 
   Sprite mario = Sprite(window.loadTexture("assets/mario.png"), Vector2(500, 500));
+  dot.loadPixelFromFile("assets/dot.png", window.getWindow());
+
+  Uint32* pixels = dot.getPixels32();
+  int PixelCount = dot.getPitch32() * dot.getSize().y;
+
+  Uint32 colorKey = SDL_MapRGBA(SDL_GetWindowSurface(window.getWindow())->format, 0xff, 0xff, 0xff, 0xff);
+  Uint32 tranparent = SDL_MapRGBA(SDL_GetWindowSurface(window.getWindow())->format, 0xff, 0xff, 0x00, 0xff);
+
+  for (int i = 0; i < PixelCount; i++) {
+    if (pixels[i] == colorKey) {
+      pixels[i] = tranparent;
+    }
+  }
+  
+  dot.loadFromPixels(window.getRenderer());
+  Dot player = Dot(dot, Vector2(20, 20));
 
   while (!quit) {
     newFrame();

@@ -8,6 +8,7 @@
 class Sprite {
 protected:
   SDL_Texture* sprite_texture;
+  SDL_Surface* pixels;
   Vector2 size;
   
   SDL_RendererFlip flip;
@@ -16,10 +17,11 @@ protected:
   bool flipH = false;
   bool flipV = false;
 
+
 public:
   float angle = 0.0f;
 
-  Sprite(SDL_Texture* texture, Vector2 nSize);
+  Sprite(SDL_Texture* texture=NULL, Vector2 nSize=Vector2());
   ~Sprite();
 
   void free();
@@ -27,13 +29,18 @@ public:
   void modulate(Vector4 color);
   void tranparency(float level);
 
+  void loadPixelFromFile(const char* path, SDL_Window* window);
+  void loadFromPixels(SDL_Renderer* renderer);
+
   virtual void render(SDL_Renderer* renderer, Vector2 position, Vector2 sprite);
 
   inline SDL_Texture* getTexture() { return sprite_texture; }
+  inline SDL_Point* getCenter() { return center; }
   inline Vector2 getSize() { return size; }
   inline bool getFlipH() { return flipH; }
   inline bool getFlipV() { return flipV; }
-  inline SDL_Point* getCenter() { return center; }
+  Uint32* getPixels32();
+  Uint32  getPitch32();
   
   void setCenter(SDL_Point* nCenter);
   void setFlipH(bool isFliped);
