@@ -22,17 +22,21 @@ void Dot::handleEvent(Input* input) {
 
 }
 
-void Dot::move() {
-  position.x += velocity.x;
+void Dot::move(float delta) {
+  position.x += velocity.x * delta;
 
-  if ((position.x < 0) || (position.x + DOT_WIDTH > 1280)) {
-    position.x -= velocity.x;
+  if ((position.x < 0)) {
+    position.x = 0;
+  } else if ((position.x + DOT_WIDTH > 1280)) {
+    position.x = 1280 - DOT_WIDTH;
   }
 
-  position.y += velocity.y;
+  position.y += velocity.y * delta;
 
-  if ((position.y < 0) || (position.y + DOT_HEIGHT > 960)) {
-    position.y -= velocity.y;
+  if ((position.y < 0)) {
+    position.y = 0;
+  } else if ((position.y + DOT_HEIGHT > 960)) {
+    position.y = 960 - DOT_HEIGHT;
   }
 }
 

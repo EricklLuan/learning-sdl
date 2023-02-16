@@ -49,7 +49,11 @@ void Game::run() {
       player.handleEvent(&window.input);
     }
 
-    player.move();
+    float delta = timerStep.getTime() / 1000.f;
+
+    player.move(delta);
+
+    timerStep.start();
 
     camera.x = ( player.getPostion().x + Dot::DOT_WIDTH/2 ) - SCREEN_WIDTH/2;
     camera.y = ( player.getPostion().y + Dot::DOT_HEIGHT/2 ) - SCREEN_HEIGHT/2;

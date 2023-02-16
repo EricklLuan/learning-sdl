@@ -22,6 +22,8 @@ private:
 
   Timer capFps;
   Timer countFps;
+  Timer timerStep;
+  
   int frames = 0;
   float FPS;
 

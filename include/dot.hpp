@@ -18,7 +18,7 @@ public:
   static const int DOT_WIDTH = 20;
   static const int DOT_HEIGHT = 20;
 
-  static const int DOT_VEL = 5;
+  static const int DOT_VEL = 640;
 
   Dot(Sprite texture, Vector2 _position);
 
@@ -26,7 +26,7 @@ public:
 
   void handleEvent(Input* input);
 
-  void move();
+  void move(float delta);
   void render(SDL_Renderer* renderer, Vector2 camera_positon);
 
   inline Vector2 getPostion() { return position; }
