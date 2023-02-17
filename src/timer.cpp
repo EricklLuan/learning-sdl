@@ -1,6 +1,7 @@
 #include "../include/timer.hpp"
 
 #include <SDL2/SDL.h>
+#include <iostream>
 
 Timer::Timer() {
   startTime = 0;
@@ -50,3 +51,4 @@ uint32_t Timer::getTime() {
 
   return time;
 }
+

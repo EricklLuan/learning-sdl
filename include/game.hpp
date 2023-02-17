@@ -31,6 +31,7 @@ private:
 
   void newFrame();
   void endFrame();
+  uint32_t callback(uint32_t time, void* param);
 
   std::string inputText = "Some Text";
 

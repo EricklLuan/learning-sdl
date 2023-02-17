@@ -7,7 +7,7 @@
 Window::Window(const char* title, int width, int height)
 :size(Vector2(width, height)), mouseFocus(true), keyboardFocus(true), fullScreen(false), minimized(false), isOpen(true) {
 
-  if (SDL_Init(SDL_INIT_VIDEO) != 0) {
+  if (SDL_Init(SDL_INIT_VIDEO | SDL_INIT_TIMER) != 0) {
     std::cout << "SDL::INIT::ERROR: " << SDL_GetError() << "\n";
   }
 
